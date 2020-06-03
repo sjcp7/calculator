@@ -85,7 +85,7 @@ button {
     color: #8E3B46;
 }
 
-.delete {
+.backspace {
     font-size: 100%
 }
 
@@ -109,6 +109,6 @@ button:active, .clicked {
     background: rgb(218, 157, 137);
 }
 
-.delete:hover, .divide:hover, .multiply:hover, .subtract:hover, .add:hover {
+.backspace:hover, .divide:hover, .multiply:hover, .subtract:hover, .add:hover {
     background: #8E3B46;
 }

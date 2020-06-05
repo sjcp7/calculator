@@ -32,9 +32,13 @@ main {
     
 }
 
+#display-container span {
+    font-size: 1.5rem;
+}
+
 #history-container, #input-container {
     min-height: 1.5rem;
-    font-size: bold;
+    font-weight: bold;
     width: 95%;    
     text-align: right;
     margin: 0 auto;

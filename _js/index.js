@@ -81,8 +81,7 @@ function addEventListeners() {
     const clearBtn = document.querySelector('#clear');
     clearBtn.addEventListener('click', clearDisplay);
 
-    const operatorsBtn = document.querySelectorAll('.operator'); 
-    
+    const operatorsBtn = document.querySelectorAll('.operator');    
 }
 
 function populateDisplay(content) {
@@ -107,11 +106,7 @@ function handleNumInput(e) {
     if (id === 'decimal') {
         const display = getDisplay();
         if (display.indexOf('.') === -1) {
-            e.target.disabled = false;
             populateDisplay(buttons[id].content);
-        }
-        else {
-            e.target.disabled = true;            
         }
     }
     else {

@@ -101,10 +101,23 @@ function getDisplay() {
 
 function handleNumInput(e) {
     const id = e.target.id;
-    if (buttons[id]) {
-        typeToDisplay(buttons[id].content)
+    console.log(e)
+    if (id === 'decimal') {
+        const display = getDisplay();
+        if (display.indexOf('.') === -1) {
+            e.target.disabled = false;
+            typeToDisplay(buttons[id].content);
+        }
+        else {
+            e.target.disabled = true;            
+        }
+    }
+    else {
+        typeToDisplay(buttons[id].content);
     }
 }
+
+
 
 
 

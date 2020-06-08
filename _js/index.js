@@ -1,9 +1,4 @@
-let displayContent = "";
-let historyContent = "";
-
-const inputBox = document.querySelector('#input-content');
-
-const buttonsObj = {
+const buttons = {
     clear: { content: 'C', keyCode: 46 },
     backspace: { content: '', keyCode: 8 },
     divide: { content: '÷', keyCode: 111 },
@@ -23,9 +18,6 @@ const buttonsObj = {
     zero: { content: 0, keyCode: 48 },
     decimal: { content: '.', keyCode: 110 }
 }
-const buttons = document.querySelectorAll('button');
-addBtnEvents(buttons);
-
 
 function add(a, b) {
     return a + b;
@@ -53,54 +45,67 @@ function operate(operation, a, b) {
 }
 
 function populateDisplay(e) {
-    let className = e.target.className;
-    if (buttonsObj[className]) {
-        displayContent += `${buttonsObj[className].content}`;
-    }
-    inputBox.textContent = displayContent;
+    let id = e.target.id;
+    let display = getDisplay();
+    display += `${buttons[id].content}`;    
+    setDisplay(display);
 }
 
 function clearDisplay() {
-    displayContent = "";
-    inputBox.textContent = displayContent;
+    setDisplay("");
 }
 
-function deleteChar() {
-    console.log("deleted");
-}
-
-function addBtnEvents(btns) {   
+function deleteNum() {
+    let display = getDisplay();
+    let len = display.length;
+    let arr = display.split("");
+    arr[len - 1] = "";
+    display = arr.join(""); 
+    setDisplay(display);
     
-    btns.forEach(btn => {
-        if ((btn.dataset.key >= 48 && btn.dataset.key <= 57)) {
-            btn.addEventListener('click', populateDisplay);
-        }
-        else if (btn.className === "clear") {
-            btn.addEventListener('click', clearDisplay);
-        }
-        else if (btn.className === "backspace") {
-            btn.addEventListener('click', deleteChar)
-        }
-        else if (btn.className === "add") {
-            btn.addEventListener('click', populateDisplay)
-        }
-        else if (btn.className === "subtract") {
-            btn.addEventListener('click', populateDisplay)
-        }
-        else if (btn.className === "multiply") {
-            btn.addEventListener('click', populateDisplay)
-        }
-        else if (btn.className === "divide") {
-            btn.addEventListener('click', populateDisplay)
-        }
-        else if (btn.className === "equal") {
-            
-        }
-    })
+}
+
+
+function addEventListeners() {
+    const numberBtns = document.querySelectorAll('.number');
+    numberBtns.forEach(btn => {
+        btn.addEventListener('click', handleNumInput);
+    });
+
+    const backspaceBtn = document.querySelector('#backspace');
+    backspaceBtn.addEventListener('click', deleteNum);
+
+    const clearBtn = document.querySelector('#clear');
+    clearBtn.addEventListener('click', clearDisplay);
+
+    const operatorsBtn = document.querySelectorAll('.operator'); 
     
-   
+    
+}
+
+function typeToDisplay(content) {
+    const display = document.querySelector('#input-content');
+    display.textContent += content;
+}
+
+function setDisplay(content) {
+    const display = document.querySelector('#input-content');
+    display.textContent = content;
+}
+
+function getDisplay() {
+    const display = document.querySelector('#input-content');
+    return display.textContent;
+}
+
+
+function handleNumInput(e) {
+    const id = e.target.id;
+    if (buttons[id]) {
+        typeToDisplay(buttons[id].content)
+    }
 }
 
 
 
-
+addEventListeners();

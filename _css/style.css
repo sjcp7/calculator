@@ -103,7 +103,7 @@ button:hover {
     transition: .1s;
 }
 
-button:active, .clicked {
+button:active {
     color: #050404;
     transform: scale(.8);
     transition: .2s;
@@ -113,6 +113,6 @@ button:active, .clicked {
     background: rgb(218, 157, 137);
 }
 
-#backspace:hover, #divide:hover, #multiply:hover, #subtract:hover, #add:hover {
+#backspace:hover, #divide:hover, #multiply:hover, #subtract:hover, #add:hover, .selected {
     background: #8E3B46;
 }

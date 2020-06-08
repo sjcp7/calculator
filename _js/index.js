@@ -44,13 +44,6 @@ function operate(operation, a, b) {
     return result;
 }
 
-function populateDisplay(e) {
-    let id = e.target.id;
-    let display = getDisplay();
-    display += `${buttons[id].content}`;    
-    setDisplay(display);
-}
-
 function clearDisplay() {
     setDisplay("");
 }
@@ -83,7 +76,7 @@ function addEventListeners() {
     
 }
 
-function typeToDisplay(content) {
+function populateDisplay(content) {
     const display = document.querySelector('#input-content');
     display.textContent += content;
 }
@@ -106,14 +99,14 @@ function handleNumInput(e) {
         const display = getDisplay();
         if (display.indexOf('.') === -1) {
             e.target.disabled = false;
-            typeToDisplay(buttons[id].content);
+            populateDisplay(buttons[id].content);
         }
         else {
             e.target.disabled = true;            
         }
     }
     else {
-        typeToDisplay(buttons[id].content);
+        populateDisplay(buttons[id].content);
     }
 }
 

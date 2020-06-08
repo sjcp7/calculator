@@ -37,11 +37,21 @@ function divide(a, b) {
 
 function operate(operation, a, b) {
     let result = 0;
-    if (operation === 'add') { result = add(a, b) }
-    else if (operation === 'subtract') { result = subtract(a, b) }
-    else if (operation === 'multiply') { result = multiply(a, b) }
-    else if (operation === 'divide') { result = b !== 0 ? divide(a, b) : 'ERROR' }
-    return result;
+    switch (operation) {
+        case 'add':
+            result = add(a, b);
+            break;
+        case 'subtract':
+            result = subtract(a, b);
+            break;
+        case 'multiply':
+            result = multiply(a, b);
+            break;
+        case 'divide':
+            result = divide(a, b)
+            break;
+    }
+    return isFinite(result) ? result : 'ERROR';
 }
 
 function clearDisplay() {
@@ -72,7 +82,6 @@ function addEventListeners() {
     clearBtn.addEventListener('click', clearDisplay);
 
     const operatorsBtn = document.querySelectorAll('.operator'); 
-    
     
 }
 

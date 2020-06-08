@@ -75,21 +75,21 @@ button {
 }
 
 
-.zero {
+#zero {
     grid-column: span 2;
 }
 
-.equal {
+#equal {
     grid-row: span 2;
     background: #D3AB9E;
     color: #050404;
 }
 
-.clear {
+#clear {
     color: #8E3B46;
 }
 
-.backspace {
+#backspace {
     font-size: 100%
 }
 
@@ -109,10 +109,10 @@ button:active, .clicked {
     transition: .2s;
 }
 
-.equal:hover {
+#equal:hover {
     background: rgb(218, 157, 137);
 }
 
-.backspace:hover, .divide:hover, .multiply:hover, .subtract:hover, .add:hover {
+#backspace:hover, #divide:hover, #multiply:hover, #subtract:hover, #add:hover {
     background: #8E3B46;
 }

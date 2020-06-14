@@ -2,7 +2,7 @@ const buttons = {
     clear: { content: 'C', keyCode: 46 },
     backspace: { content: '', keyCode: 8 },
     divide: { content: '÷', keyCode: 111 },
-    multiply: { content: 'X', keyCode: 106 },
+    multiply: { content: '*', keyCode: 106 },
     seven: { content: 7, keyCode: 55 },
     eight: { content: 8, keyCode: 56 },
     nine: { content: 9, keyCode: 57 },
@@ -18,6 +18,15 @@ const buttons = {
     zero: { content: 0, keyCode: 48 },
     decimal: { content: '.', keyCode: 110 }
 }
+
+const btns = document.querySelectorAll('.number');
+const operators = document.querySelectorAll('.operator');
+const equalBtn = document.querySelector('#equal');
+const clearBtn = document.querySelector('#clear');
+const backspaceBtn = document.querySelector('#backspace');
+const display = document.querySelector('#display-content');
+let history = '';
+let done = false;
 
 function add(a, b) {
     return a + b;
@@ -51,71 +60,174 @@ function operate(operation, a, b) {
             result = divide(a, b)
             break;
     }
-    return isFinite(result) ? result : 'ERROR';
+    return result;
 }
 
-function clearDisplay() {
-    setDisplay("");
-}
+function deleteNum() {    
+    let input = getDisplay();
 
-function deleteNum() {
-    let display = getDisplay();
-    let len = display.length;
-    let arr = display.split("");
+    if (input === 'ERROR') return;
+
+    let len = input.length;
+    let arr = input.split("");
     arr[len - 1] = "";
-    display = arr.join(""); 
-    setDisplay(display);
-    
+    input = arr.join(""); 
+    setDisplay(input);    
 }
-
 
 function addEventListeners() {
-    const numberBtns = document.querySelectorAll('.number');
-    numberBtns.forEach(btn => {
-        btn.addEventListener('click', handleNumInput);
+    btns.forEach(btn => {
+        btn.addEventListener('click', handleNumInput)
     });
 
-    const backspaceBtn = document.querySelector('#backspace');
+    clearBtn.addEventListener('click', clearAll);
+
     backspaceBtn.addEventListener('click', deleteNum);
 
-    const clearBtn = document.querySelector('#clear');
-    clearBtn.addEventListener('click', clearDisplay);
+    operators.forEach(btn => {
+        btn.addEventListener('click', handleOperatorInput);
+    })
 
-    const operatorsBtn = document.querySelectorAll('.operator');    
+    equalBtn.addEventListener('click', handleEqualInput);
 }
 
 function populateDisplay(content) {
-    const display = document.querySelector('#input-content');
     display.textContent += content;
 }
 
 function setDisplay(content) {
-    const display = document.querySelector('#input-content');
     display.textContent = content;
 }
 
 function getDisplay() {
-    const display = document.querySelector('#input-content');
     return display.textContent;
 }
 
-
-function handleNumInput(e) {
-    const id = e.target.id;
-    console.log(e)
-    if (id === 'decimal') {
-        const display = getDisplay();
-        if (display.indexOf('.') === -1) {
-            populateDisplay(buttons[id].content);
-        }
-    }
-    else {
-        populateDisplay(buttons[id].content);
-    }
+function clearDisplay() {
+    setDisplay('');
 }
 
+function setHistory(content) {
+    history = content;
+}
 
+function getHistory() {
+    return history;
+}
 
+function clearHistory() {
+    setHistory('');
+}
 
+function clearAll() {
+    clearDisplay();
+    clearHistory();    
+}
+
+function handleNumInput(e) {
+    let btnId = e.target.id;
+    let input = getDisplay();
+
+    if (buttons[btnId]) {
+        if (done) {
+            setDisplay('');
+            done = false;
+        }
+
+        if (btnId == 'decimal'){
+            
+            if (input.includes('.')) {
+                return;
+            } 
+            else if (input == '0') {
+                populateDisplay('0.');
+            }
+            else {
+                populateDisplay('.');
+            }
+        }
+        else if (btnId == 'zero') {
+
+            if (input == '0') {
+                return;
+            }
+            else {
+                populateDisplay('0');
+            }
+        }
+        else {
+            populateDisplay(buttons[btnId].content);
+        }        
+    }   
+}
+
+function handleOperatorInput(e) {
+    let btn = e.target;
+    let btnId = e.target.id;
+    let history = getHistory();
+    let input = getDisplay();
+
+    if (input === 'ERROR') return;   
+
+    
+
+    if (buttons[btnId]) {
+        let op = buttons[btnId].content;
+
+        
+        if (history === '') {
+            history = input + op;
+            setHistory(history);
+            done = true;
+        }
+        else {           
+            history += input;
+            let result = evaluate(history).toString();
+            setDisplay(result);
+            result += op;
+            setHistory(result);            
+            done = true;
+        }
+    }
+    
+}
+
+function handleEqualInput(e) {
+    let history = getHistory();
+    let input = getDisplay();
+
+    if (input === 'ERROR') return;
+
+    history += input;
+    setDisplay(evaluate(history));
+    clearHistory();    
+    done = true;
+}
+
+function evaluate(expression) {   
+    let result = 0;
+    
+    if (expression.includes('+')) {
+        let arr = expression.split('+');
+        result = operate('add', Number(arr[0]), Number(arr[1]));
+    }
+    else if (expression.includes('-')) {
+        let arr = expression.split('-');
+        result = operate('subtract', Number(arr[0]), Number(arr[1]));
+    }
+    else if (expression.includes('*')) {
+        let arr = expression.split('*');
+        result = operate('multiply', Number(arr[0]), Number(arr[1]));
+    }
+    else if (expression.includes('÷')) {
+        let arr = expression.split('÷');
+        result = operate('divide', Number(arr[0]), Number(arr[1]));
+    }
+
+    if (!isFinite(result) || isNaN(result)) {
+        return 'ERROR';
+    }    
+    return result;
+}
 
 addEventListeners();

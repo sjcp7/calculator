@@ -26,29 +26,22 @@ main {
 }
 
 #display-container {
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: center;
+    background-color: #F0F7F4;    
+    min-height: 3rem;
+    border-radius: 1rem;
+    font-weight: bold; 
+    text-align: right;
+    overflow-wrap: break-word;    
     
 }
 
 #display-container span {
-    font-size: 1.5rem;
+    font-size: 2rem;
+    color: black;
+    margin-right: 5px;
 }
 
-#history-container, #input-container {
-    min-height: 1.5rem;
-    font-weight: bold;
-    width: 95%;    
-    text-align: right;
-    margin: 0 auto;
-    overflow-wrap: break-word;    
-    margin: .1rem auto
-}
 
-#history-container {
-    border-bottom: .5px solid #050404;
-}
 
 #buttons-container {
     display: flex;
